@@ -2,22 +2,28 @@ import tkinter as tk
 from PIL import ImageTk, Image
 import os
 import random
+import time
+import schedule
 
 # Directory containing images
 img_dir = 'img'
 
-# Get list of files in the directory
-img_files = os.listdir(img_dir)
 
-# Filter out directories if any
-img_files = [file for file in img_files if os.path.isfile(os.path.join(img_dir, file))]
+def choseRandomImg() -> str:
+    # Get list of files in the directory
+    img_files = os.listdir(img_dir)
 
-# Select a random image file
-random_img = random.choice(img_files)
+    # Filter out directories if any
+    img_files = [file for file in img_files if os.path.isfile(os.path.join(img_dir, file))]
 
-# Full path to the randomly selected image
-random_img_path = os.path.join(img_dir, random_img)
+    # Select a random image file
+    random_img = random.choice(img_files)
 
+    # Full path to the randomly selected image
+    return os.path.join(img_dir, random_img)
+
+
+random_img_path = choseRandomImg()
 # Create a Tkinter window
 window = tk.Tk()
 window.title("Display Image")
@@ -30,17 +36,17 @@ screen_width = window.winfo_screenwidth()
 screen_height = window.winfo_screenheight()
 
 # Load the image
-
 img = Image.open(random_img_path)
 
 # Resize image to fit the screen while maintaining aspect ratio
-img.thumbnail((screen_width, screen_height))
+img.thumbnail((500, 700))
 
 # Convert image for Tkinter
 img = ImageTk.PhotoImage(img)
 
 # Create a text to display
-text = tk.Label(window, text="Today recommended read, to improve your Informatics skill, is:", font=("Comic Sans MS", 40, "bold"))
+text = tk.Label(window, text="Today recommended read, to improve your Informatics skill, is:",
+                font=("Comic Sans MS", 40, "bold"))
 text.pack()
 
 # Create a label to display the image
@@ -50,8 +56,28 @@ label.pack(fill=tk.BOTH, expand=tk.YES)
 # Bind escape key to exit fullscreen
 window.bind('<Escape>', lambda event: window.attributes('-fullscreen', False))
 
-
-print(random_img_path)
 # Run the Tkinter event loop
-window.mainloop()
+window.update()
 
+
+def update_book():
+    print('cambio')
+    img = Image.open(choseRandomImg())
+    #img.resize((500, 700))
+    # Resize image to fit the screen while maintaining aspect ratio
+    img.thumbnail((500, 700))
+
+    # Convert image for Tkinter
+    img = ImageTk.PhotoImage(img)
+
+    label.configure(image=img)
+    label.image = img
+    window.update()
+
+
+schedule.every(20).seconds.do(update_book)
+
+# schedule.every().day.at("03:00").do(update_book)
+while True:
+    schedule.run_pending()
+    time.sleep(5)
