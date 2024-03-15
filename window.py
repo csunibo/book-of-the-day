@@ -75,9 +75,8 @@ def update_book():
     window.update()
 
 
-schedule.every(20).seconds.do(update_book)
-
-# schedule.every().day.at("03:00").do(update_book)
+# schedule.every(20).seconds.do(update_book)
+schedule.every().day.at("03:00").do(update_book)
 while True:
     schedule.run_pending()
     time.sleep(5)
