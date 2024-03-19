@@ -46,15 +46,21 @@ img = ImageTk.PhotoImage(img)
 
 # Create a text to display
 text = tk.Label(window, text="Today recommended read, to improve your Informatics skill, is:",
-                font=("Comic Sans MS", 40, "bold"))
+                font=("Comic Sans MS", 40, "bold"), fg='white', bg='#02111B')
+# Set the window background to dark csunibo color
+text.config(background='#02111B')
 text.pack()
 
 # Create a label to display the image
 label = tk.Label(window, image=img)
+# Set the window background to dark csunibo color
+label.config(background='#02111B')
+
 label.pack(fill=tk.BOTH, expand=tk.YES)
 
 # Bind escape key to exit fullscreen
 window.bind('<Escape>', lambda event: window.attributes('-fullscreen', False))
+
 
 # Run the Tkinter event loop
 window.update()
