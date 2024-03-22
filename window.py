@@ -30,6 +30,7 @@ random_img_path = choseRandomImg()
 # Create a Tkinter window
 window = tk.Tk()
 window.title("Display Image")
+window.configure(background="#02111B")
 
 # Make the window full size
 window.attributes("-fullscreen", True)
@@ -55,7 +56,8 @@ text = tk.Label(
     fg="white",
     bg="#02111B",
 )
-text.pack()
+
+text.pack(pady=(42, 0))
 
 # Create a label to display the image
 label = tk.Label(window, image=img, background="#02111B")
